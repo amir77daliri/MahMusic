@@ -24,7 +24,7 @@ class Album(models.Model):
     image = models.ImageField(upload_to=upload_image_path, blank=True)
     published_at = models.DateTimeField(default=timezone.now)
     # Relation fields:
-    singer = models.ForeignKey(Singer, blank=True, null=True, on_delete=models.SET_NULL)
+    singer = models.ForeignKey(Singer, blank=True, null=True, on_delete=models.SET_NULL, related_name='albums')
 
     def thumbnail_tag(self):
         return format_html("<img width=80 height=80 style='border-radius:5px;'src='{}'>".format(self.image.url))

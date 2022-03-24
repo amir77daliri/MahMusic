@@ -10,7 +10,10 @@ class MusicInlines(admin.StackedInline):
 
 @admin.register(Album)
 class AlbumAdmin(admin.ModelAdmin):
-    list_display = ['name', 'singer', 'thumbnail_tag']
+    list_display = ['name', 'singer', 'thumbnail_tag', 'album_musics_count']
     sortable_by = ('published_at',)
     list_filter = ['singer']
     inlines = [MusicInlines]
+
+    def album_musics_count(self, obj):
+        return obj.musics.count()

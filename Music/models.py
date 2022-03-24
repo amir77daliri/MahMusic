@@ -35,8 +35,8 @@ class Music(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     published_at = models.DateTimeField(default=timezone.now)
     # Relation fields :
-    singer = models.ForeignKey(Singer, blank=True, null=True, on_delete=models.SET_NULL)
-    album = models.ForeignKey(Album, blank=True, null=True, on_delete=models.SET_NULL)
+    singer = models.ForeignKey(Singer, blank=True, null=True, on_delete=models.SET_NULL, related_name='musics')
+    album = models.ForeignKey(Album, blank=True, null=True, on_delete=models.SET_NULL, related_name='musics')
 
     class Meta:
         ordering = ['-published_at']
