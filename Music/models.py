@@ -4,6 +4,7 @@ from django.utils.text import slugify
 from django.utils.html import format_html
 from mutagen.mp3 import MP3
 from Singer.models import Singer
+from Album.models import Album
 import os
 
 
@@ -35,6 +36,7 @@ class Music(models.Model):
     published_at = models.DateTimeField(default=timezone.now)
     # Relation fields :
     singer = models.ForeignKey(Singer, blank=True, null=True, on_delete=models.SET_NULL)
+    album = models.ForeignKey(Album, blank=True, null=True, on_delete=models.SET_NULL)
 
     class Meta:
         ordering = ['-published_at']
