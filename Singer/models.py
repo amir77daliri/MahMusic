@@ -1,7 +1,13 @@
 from django.db import models
 from django.utils.text import slugify
 from django.utils.html import format_html
-from Music.models import get_filename_ext
+import os
+
+
+def get_filename_ext(filepath):
+    base_name = os.path.basename(filepath)
+    name, ext = os.path.splitext(base_name)
+    return name, ext
 
 
 def upload_image_path(instance, filename):
@@ -18,7 +24,7 @@ class Singer(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def thumbnail_tag(self):
-        return format_html("<img width=100 height=80 style='border-radius:5px;'src='{}'>".format(self.image.url))
+        return format_html("<img width=80 height=80 style='border-radius:5px;'src='{}'>".format(self.image.url))
     thumbnail_tag.short_description = "thumbnail"
 
     def __str__(self):

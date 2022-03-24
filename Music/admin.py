@@ -4,7 +4,7 @@ from .models import Music
 
 @admin.register(Music)
 class MusicAdmin(admin.ModelAdmin):
-    list_display = ['name', 'music', 'status', 'published_at']
+    list_display = ['name', 'music', 'thumbnail_tag', 'singer', 'status', 'published_at']
     list_filter = ['created_at', 'status']
     search_fields = ('name', 'music')
     actions = ['make_accept', 'make_pending']
