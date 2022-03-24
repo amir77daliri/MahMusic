@@ -47,6 +47,9 @@ INSTALLED_APPS = [
     'Singer.apps.SingerConfig',
     'Album.apps.AlbumConfig',
     'Account.apps.AccountConfig',
+
+    # Installed packages :
+    'mutagen',
 ]
 
 MIDDLEWARE = [

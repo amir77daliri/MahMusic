@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
+from mutagen.mp3 import MP3
 import os
 
 
@@ -25,6 +26,7 @@ class Music(models.Model):
     slug = models.SlugField(max_length=200, blank=True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='A')
     music = models.FileField(upload_to='Music/songs')
+    music_length = models.FloatField(blank=True, default=0)
     image = models.ImageField(upload_to=upload_image_path, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -38,5 +40,7 @@ class Music(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
+        time = "{:.2f}".format(MP3(self.music).info.length / 60)
+        self.music_length = time
         super(Music, self).save(*args, **kwargs)
 
