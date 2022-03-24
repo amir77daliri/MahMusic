@@ -27,6 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Project Settings Config  :
+AUTH_USER_MODEL = 'Account.User'
+
+
 
 # Application definition
 
