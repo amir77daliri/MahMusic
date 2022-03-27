@@ -20,7 +20,7 @@ def upload_image_path(instance, filename):
 
 class Album(models.Model):
     name = models.CharField(max_length=200)
-    slug = models.CharField(max_length=200)
+    slug = models.CharField(max_length=200, blank=True)
     image = models.ImageField(upload_to=upload_image_path, blank=True)
     published_at = models.DateTimeField(default=timezone.now)
     # Relation fields:
