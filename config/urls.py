@@ -21,7 +21,7 @@ from Music.views import home
 
 
 urlpatterns = [
-    path('', home),
+    path('', home, name='homepage'),
     path('musics/', include('Music.urls')),
     path('admin/', admin.site.urls),
 ]

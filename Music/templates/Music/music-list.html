@@ -1,0 +1,47 @@
+{% extends 'Music/base.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'Music/css/pagination.css' %}">
+    <link rel="stylesheet" href="{% static 'Music/css/Home-style.css' %}">
+{% endblock %}
+{% block main %}
+    <section class="py-4 bg-secondary bg-opacity-25">
+        <div class="container">
+            <h2 class="mt-0 text-center">songs</h2>
+            <hr style="height: 5px; ">
+            <div class="row g-4 fixWidth">
+                {% for music in songs%}
+                    <div class="col-lg-2 col-md-4 col-sm-6">
+                        <a href="#" class="card-link">
+                            <div class="card--section">
+                                <img class="card-image" src="{{ music.image.url }}" alt="">
+                                <div class="card--detail">
+                                    <h3>{{ music.name }}</h3>
+                                </div>
+                                <div class="card--footer">
+                                    <span>1024 played</span>
+                                    <span>pop</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+            <li><a href="?page={{ page_obj.previous_page_number }}">&#x21d0</a></li>
+        {% endif %}
+        {% for page in paginator.page_range %}
+            {% if page == page_obj.number %}
+                <li class="page-active"><a href="{{ request.path }}?page={{ page }}">{{ page }}</a></li>
+            {% else %}
+                <li><a href="?page={{ page }}">{{ page }}</a></li>
+            {% endif%}
+        {% endfor %}
+        {% if page_obj.has_next %}
+            <li><a href="?page={{ page_obj.next_page_number }}">&#x21d2</a></li>
+        {% endif %}
+    </ul>
+{% endblock %}
