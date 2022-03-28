@@ -1,0 +1,15 @@
+ <div class="col-lg-4 ps-0 overflow-auto clear-most-viewed shadow scroll" style="height: 600px;">
+    <h4 style="text-align: center; color: #e32d69;margin: 1px auto 0">Most Rated</h4>
+    <hr style="height: 2px">
+    {% for item in most_rated %}
+        <a href="#" style="text-decoration: none">
+            <div class="item-x shadow">
+                <img src="{{ item.image.url }}" alt="{{ item.name }}">
+                <div class="description">
+                    <p>{{ item.name }}</p>
+                    <p>{{ item.singer }}</p>
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+</div>

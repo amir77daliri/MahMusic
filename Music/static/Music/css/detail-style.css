@@ -1,0 +1,166 @@
+.category{
+    display: flex;
+    padding: 6px;
+    margin: 8px 10px 3px 10px;
+    border-radius: 8px;
+    justify-content: center;
+    align-items: center;
+    color: rgb(212, 212, 143);
+    height: 40px;
+}
+
+.detail-header {
+    display: flex;
+    padding: 6px;
+    border-radius: 8px;
+    justify-content: space-around;
+    align-items: center;
+    color: rgb(212, 212, 143);
+    height: 60px;
+    margin: 0 10px 3px 10px; 
+}
+
+.item {
+    margin: 4px 2px 4px 2px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background :linear-gradient(to right,rgba(125,125,125,.8),rgba(125,125,125,0));
+    border-radius: 15px;
+    height: 90px;
+}
+.item:hover {
+    background-color: rgba(0, 0, 0, .5);
+}
+
+.item img {
+    width: 74px;
+    height: 74px;
+    border-radius: 12px;
+    flex-grow: 1;
+}
+.item .description {
+    box-sizing: border-box;
+    flex-grow: 3;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;
+    padding: 8px;
+    color: rgb(246, 248, 147);
+}
+
+.song--download--body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.song--download--body button {
+    width: 100px;
+    color: rgb(71, 71, 31);
+    margin: auto 10px;
+    background-color: rgb(186, 245, 138);
+}
+.song--download--body a {
+    text-decoration: none;
+}
+
+.song--desc--body {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background :linear-gradient(to right,rgba(125,125,125,.8),rgba(125,125,125,.4));
+}
+.audio-duration {
+    margin-top: 4px;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 10% 75% 15%;
+    align-items: center;
+    height: 30px;
+    justify-content: center;
+    padding: 12px;    
+}
+.range {
+    margin: auto 2px;
+}
+.range input[type='range'] {
+    width: 100%;
+}
+
+.audio-buttons {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+    height: 70px;
+    padding: 8px;
+}
+
+#play {
+    margin: auto 8px;
+}
+#play svg, #audio-unmute,#audio-mute{
+    display: none;
+}
+#play svg.active, #audio-unmute.active, #audio-mute.active{
+    display: inline;
+}
+
+#like {
+    font-size: 30px;
+}
+.audio--sounds {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    align-items: center;
+
+}
+@media screen and (max-width:992px) {
+    .test {
+        display: none;
+    }
+    .container-fluid .collapse > ul > li > a:hover{
+        padding-left: 8px;
+    }
+
+}
+
+@media screen and (max-width:576px) {
+    .audio-controls  {
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+    .detail-header{
+        margin-top: 20px;
+    }
+    .favorits {
+        font-size: 20px;
+    }
+    .favorits span svg{
+        width: 16px !important;
+        height: 16px !important;
+    }
+
+    .audio-controlls-button #prev,#next,#play {
+        justify-content: space-between;
+    }
+
+    .song--download--body {
+        justify-content: space-between;
+        flex-wrap:nowrap;
+    }
+    
+    .song--download--body button {
+        width: 80px;
+        margin: auto 2px;
+    }
+
+}

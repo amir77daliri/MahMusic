@@ -1,0 +1,72 @@
+*{
+    margin: 0; padding: 0;
+    box-sizing: border-box;
+}
+body{
+/*    background: url("../../account/login/images/login_back.jpg") no-repeat;
+    background-size: cover;
+    background-attachment: fixed;*/
+    background: url('../../main/background.jpg') !important;
+}
+.scroll::-webkit-scrollbar{
+    width: 12px;
+}
+.scroll::-webkit-scrollbar-track{
+    background: #e3cc83;
+    border-radius: 40px;
+}
+.scroll::-webkit-scrollbar-thumb{
+    background-color: rgba(54, 239, 26, 0.8);
+    border-radius: 40px;
+}
+
+.container-fluid .collapse > ul > li > a  {
+    color: rgb(209, 241, 25) !important;
+}
+.container-fluid .collapse > ul > li:hover {
+    background-color: #000000;
+    border-radius: 10px;
+}
+.navbar-brand {
+    color: rgb(199, 211, 37) !important;
+}
+.item-x {
+    margin: 4px 2px 4px 2px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background :linear-gradient(to right, rgba(23, 22, 22, 0.8), rgba(30, 27, 27, 0));
+    border-radius: 15px;
+    height: 100px;
+}
+.item-x:hover {
+    background-color: rgba(0, 0, 0, .7);
+}
+
+.item-x img {
+    width: 74px;
+    height: 90px;
+    border-radius: 12px;
+    flex-grow: 1;
+}
+.item-x .description {
+    box-sizing: border-box;
+    flex-grow: 3;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;
+    padding: 8px;
+    color: rgb(196, 51, 99);
+}
+
+.item-x .description p:first-child {
+    color: #d72b79;
+}
+.item-x .description p:last-child {
+    color: rgba(232, 226, 140, 0.8);
+}

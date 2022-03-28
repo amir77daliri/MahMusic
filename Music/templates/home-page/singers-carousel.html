@@ -1,0 +1,22 @@
+<section class="py-4 bg-secondary bg-opacity-25" id="demos">
+    <div class="container">
+        <h2 class="mt-0 text-center">Singers</h2>
+        <hr style="height: 5px; ">
+        <div class="row">
+            <div class="large-12 columns">
+                <div class="owl-carousel owl-theme">
+                    {% for singer in singers %}
+                        <a href="">
+                            <div class="item">
+                                <div class="t-box">
+                                    <img src="{{ singer.image.url }}" alt="{{ singer.name }}" class="owl-carousel-image" style="height: auto">
+                                    <p class="text-center">{{ singer.name }}</p>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

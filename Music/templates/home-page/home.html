@@ -1,0 +1,61 @@
+{% extends 'Music/base.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'Music/css/Home-style.css' %}">
+    <title>Mah Music</title>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{% static 'Music/carousel_assets/css/docs.theme.min.css' %}">
+    <!-- Owl Stylesheets -->
+    <link rel="stylesheet" href="{% static 'Music/carousel_assets/owlcarousel/assets/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Music/carousel_assets/owlcarousel/assets/owl.theme.default.min.css' %}">
+    <!-- javascript -->
+    <script src="{% static 'Music/carousel_assets/vendors/jquery.min.js' %}"></script>
+    <script src="{% static 'Music/carousel_assets/owlcarousel/owl.carousel.js' %}"></script>
+{% endblock %}
+
+{% block slide %}
+    <div class="container-fluid" style="padding-top:20px ;">
+        <div class="row justify-content-center align-items-start">
+            {% include 'home-page/home-most-rated-musics.html' with most_rated=most_rated%}
+            {% include 'home-page/home-slideShow.html' %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block main %}
+    {% include 'home-page/music-small-list.html' with new_musics=new_songs %}
+{% endblock %}
+
+
+{% block Singers %}
+    {% include 'home-page/singers-carousel.html' with singers=singers%}
+{% endblock %}
+
+
+{% block Albums %}
+    {% include 'home-page/albums-small-list.html' with albums=albums %}
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'Music/js/slideShow.js' %}"></script>
+
+    <!-- carousel Scripts -->
+    <script>
+      $(document).ready(function() {
+        let owl = $('.owl-carousel');
+        owl.owlCarousel({
+          items: 4,
+          loop: true,
+          margin: 10,
+          autoplay: true,
+          autoplayTimeout: 3000,
+          autoplayHoverPause: true
+        });
+      })
+    </script>
+    <!-- vendors -->
+    <script src="{% static 'Music/carousel_assets/vendors/highlight.js' %}"></script>
+    <script src="{% static 'Music/carousel_assets/js/app.js' %}"></script>
+{% endblock %}
