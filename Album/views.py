@@ -24,4 +24,7 @@ class AlbumDetail(DetailView):
         return album
 
     def get_context_data(self, **kwargs):
-        pass
+        context = super(AlbumDetail, self).get_context_data(**kwargs)
+        context['album_songs'] = album.musics.all()
+        context['other_albums_of_same_singer'] = Album.objects.filter(singer=album.singer).exclude(slug=slug)
+        return context

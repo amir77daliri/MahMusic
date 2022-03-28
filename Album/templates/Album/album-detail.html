@@ -4,6 +4,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'Music/css/detail-style.css' %}">
     <title>{{ album.name }}</title>
     <link rel="stylesheet" href="{% static 'Singer/css/singer-detail.css' %}">
+    <link rel="stylesheet" href="{% static 'Album/css/table-style.css' %}">
 {% endblock %}
 
 {% block main %}
@@ -16,51 +17,55 @@
                     </div>
                     <div class="col-lg-7 col-sm-8 bio">
                         <div class="bio-header">
-                            <h3>Biography</h3>
+                            <h3>description</h3>
                         </div>
                         <div class="bio-body">
-                            <p>Loremxxx ipsum =ing elit. Ab, assumenda dolor dolore ea est explicabo fugit ipsam itaque iure maiores molestias natus officia quas qui ratione repudiandae sit, suscipit voluptate.</p>
+                            <p>Lorem ipsum ing elit. Ab, assumenda dolor dolore ea est explicabo fugit ipsam itaque iure maiores molestias natus officia quas qui ratione repudiandae sit, suscipit voluptate.</p>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
-        {% if singer_musics %}
-            <section class="py-4 bg-secondary bg-opacity-25">
-                <div class="container">
-                    <h2 class="mt-0 text-center">Songs</h2>
-                    <hr style="height: 5px; ">
-                    <div class="row g-4 fixWidth">
-                        {% for music in singer_musics %}
-                            <div class="col-lg-2 col-md-4 col-sm-6">
-                                <a href="{% url 'music:detail' music.slug %}" class="card-link">
-                                    <div class="card--section">
-                                        <img class="card-image" src="{{ music.image.url }}" alt="">
-                                        <div class="card--detail">
-                                            <h3>{{ music.name }}</h3>
-                                        </div>
-                                        <div class="card--footer">
-                                            <span>1024 played</span>
-                                            <span>pop</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
+        <div class="container py-4">
+            <div class="row">
+                <div class="col-md-8">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>title</th>
+                            <th>category</th>
+                            <th>views</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for music in album_songs %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>
+                                    <a href="{% url 'music:detail' music.slug %}">
+                                        <img src="{{ music.image.url }} " alt="{{ music.name }}">{{ music.name }}
+                                    </a>
+                                </td>
+                                <td>pop</td>
+                                <td>1024</td>
+                            </tr>
                         {% endfor %}
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
-            </section>
-        {% endif %}
-        {% if singer_albums %}
-            <section class="py-4 bg-secondary bg-opacity-25">
+            </div>
+        </div>
+
+        {% if other_albums_of_same_singer %}
+            <section class="py-4">
             <div class="container">
-                <h2 class="mt-0 text-center">Albums</h2>
-                <hr style="height: 5px; ">
+                <h2 class="mt-0 text-center">Other Albums</h2>
+                <hr style="height: 5px; color: yellow">
                 <div class="row g-4 fixWidth">
-                    {% for album in singer_albums %}
+                    {% for album in other_albums_of_same_singer %}
                         <div class="col-lg-2 col-md-4 col-sm-6">
-                            <a href="#" class="card-link">
+                            <a href="{% url 'album:detail' album.slug %}" class="card-link">
                                 <div class="card--section">
                                     <img class="card-image" src="{{ album.image.url }}" alt="{{ album.name }}">
                                     <div class="card--detail">
