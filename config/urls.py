@@ -23,6 +23,8 @@ from Music.views import home
 urlpatterns = [
     path('', home, name='homepage'),
     path('musics/', include('Music.urls')),
+    path('singers/', include('Singer.urls')),
+    path('albums/', include('Album.urls')),
     path('admin/', admin.site.urls),
 ]
 

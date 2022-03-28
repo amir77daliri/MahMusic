@@ -1,4 +1,4 @@
-<section class="py-4 bg-secondary bg-opacity-25" id="demos">
+<section class="py-4" id="demos">
     <div class="container">
         <h2 class="mt-0 text-center">Singers</h2>
         <hr style="height: 5px; ">
@@ -6,7 +6,7 @@
             <div class="large-12 columns">
                 <div class="owl-carousel owl-theme">
                     {% for singer in singers %}
-                        <a href="">
+                        <a href="{% url 'singer:detail' singer.slug %}">
                             <div class="item">
                                 <div class="t-box">
                                     <img src="{{ singer.image.url }}" alt="{{ singer.name }}" class="owl-carousel-image" style="height: auto">
@@ -15,6 +15,13 @@
                             </div>
                         </a>
                     {% endfor %}
+                    <a href="{% url 'singer:list' %}">
+                        <div class="item t-box" style="background: #141414 linear-gradient(to bottom,#2c2c2c,#141414);border-radius: 6px;box-shadow: 4px 4px rgb(165, 220, 17);height: 246px !important;">
+                            <div>
+                                <p class="text-center">All Singers..</p>
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>

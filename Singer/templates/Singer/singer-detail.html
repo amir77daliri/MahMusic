@@ -1,0 +1,84 @@
+{% extends 'Singer/base.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'Music/css/detail-style.css' %}">
+    <title>{{ singer.name }}</title>
+    <link rel="stylesheet" href="{% static 'Singer/css/singer-detail.css' %}">
+{% endblock %}
+
+{% block main %}
+    <main>
+        <div class="container" style="border-radius: 12px;">
+            <div class="container p-3" >
+                <div class="row">
+                    <div class="col-lg-5 col-sm-4">
+                        <img src="{{ singer.image.url }}" alt="{{ singer.name }}" style="width: 100%; height: 400px">
+                    </div>
+                    <div class="col-lg-7 col-sm-8 bio">
+                        <div class="bio-header">
+                            <h3>Biography</h3>
+                        </div>
+                        <div class="bio-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, assumenda dolor dolore ea est explicabo fugit ipsam itaque iure maiores molestias natus officia quas qui ratione repudiandae sit, suscipit voluptate.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {% if singer_musics %}
+            <section class="py-4 bg-secondary bg-opacity-25">
+                <div class="container">
+                    <h2 class="mt-0 text-center">Songs</h2>
+                    <hr style="height: 5px; ">
+                    <div class="row g-4 fixWidth">
+                        {% for music in singer_musics %}
+                            <div class="col-lg-2 col-md-4 col-sm-6">
+                                <a href="{% url 'music:detail' music.slug %}" class="card-link">
+                                    <div class="card--section">
+                                        <img class="card-image" src="{{ music.image.url }}" alt="">
+                                        <div class="card--detail">
+                                            <h3>{{ music.name }}</h3>
+                                        </div>
+                                        <div class="card--footer">
+                                            <span>1024 played</span>
+                                            <span>pop</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+        {% if singer_albums %}
+            <section class="py-4 bg-secondary bg-opacity-25">
+            <div class="container">
+                <h2 class="mt-0 text-center">Albums</h2>
+                <hr style="height: 5px; ">
+                <div class="row g-4 fixWidth">
+                    {% for album in singer_albums %}
+                        <div class="col-lg-2 col-md-4 col-sm-6">
+                            <a href="#" class="card-link">
+                                <div class="card--section">
+                                    <img class="card-image" src="{{ album.image.url }}" alt="{{ album.name }}">
+                                    <div class="card--detail">
+                                        <h3>{{ album.name }}</h3>
+                                    </div>
+                                    <div class="card--footer">
+                                        <span>{{ album.musics.count }} tracks</span>
+                                        <span>pop</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        {% endif %}
+    </main>
+{% endblock %}
+
+

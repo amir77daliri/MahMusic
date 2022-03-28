@@ -1,10 +1,10 @@
-<section class="py-4 bg-secondary bg-opacity-25">
+<section class="py-4">
     <div class="container">
         <h2 class="mt-0 text-center">New songs</h2>
         <hr style="height: 5px; ">
         <div class="row g-4 fixWidth">
             {% for music in new_musics %}
-                <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="col-lg-2 col-md-4 col-sm-6 my-2">
                     <a href="{% url 'music:detail' music.slug %}" class="card-link">
                         <div class="card--section">
                             <img class="card-image" src="{{ music.image.url }}" alt="">
@@ -19,7 +19,7 @@
                     </a>
                 </div>
             {% endfor %}
-            <div class="col-lg-2 col-md-4 col-sm-6 view-more">
+            <div class="col-lg-2 col-md-4 col-sm-6 view-more my-2">
                     <a href="{% url 'music:list' %}">
                         <div>
                             <p>View More ...</p>

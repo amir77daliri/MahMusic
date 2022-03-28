@@ -15,7 +15,7 @@ def get_filename_ext(filepath):
 def upload_image_path(instance, filename):
     name, ext = get_filename_ext(filename)
     final_name = f'{instance.name}-{ext}'
-    return f'Singer/images/{final_name}'
+    return f'Album/images/{final_name}'
 
 
 class Album(models.Model):

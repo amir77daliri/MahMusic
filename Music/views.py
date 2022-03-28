@@ -12,14 +12,12 @@ def home(request):
 
     # just for test in start, complete later :
     most_rated = new_songs[:6]
-
     context = {
         'new_songs': new_songs,
         'singers': singers,
         'albums': albums,
         'most_rated': most_rated
     }
-
     return render(request, 'home-page/home.html', context)
 
 

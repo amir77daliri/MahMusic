@@ -1,4 +1,4 @@
-{% extends 'Music/base.html' %}
+{% extends 'Singer/base.html' %}
 {% load static %}
 {% block head %}
     <link rel="stylesheet" href="{% static 'main/pagination.css' %}">
@@ -7,20 +7,20 @@
 {% block main %}
     <section class="py-4">
         <div class="container">
-            <h2 class="mt-0 text-center">songs</h2>
+            <h2 class="mt-0 text-center">Singers</h2>
             <hr style="height: 5px; ">
             <div class="row g-4 fixWidth">
-                {% for music in songs%}
+                {% for singer in singers%}
                     <div class="col-lg-2 col-md-4 col-sm-6">
-                        <a href="{% url 'music:detail' music.slug %}" class="card-link">
+                        <a href="{% url 'singer:detail' singer.slug %}" class="card-link">
                             <div class="card--section">
-                                <img class="card-image" src="{{ music.image.url }}" alt="">
+                                <img class="card-image" src="{{ singer.image.url }}" alt="">
                                 <div class="card--detail">
-                                    <h3>{{ music.name }}</h3>
+                                    <h3>{{ singer.name }}</h3>
                                 </div>
                                 <div class="card--footer">
-                                    <span>1024 played</span>
-                                    <span>pop</span>
+                                    <span>{{ singer.musics.count }} tracks</span>
+                                    <span>{{ singer.albums.count }} albums</span>
                                 </div>
                             </div>
                         </a>

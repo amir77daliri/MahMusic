@@ -70,3 +70,115 @@ body{
 .item-x .description p:last-child {
     color: rgba(232, 226, 140, 0.8);
 }
+.slideImageFix {
+    width: 100%;
+}
+
+.card-link {
+    text-decoration: none;
+    color: rgb(240, 220, 220);
+    text-align: center;
+}
+.card-link:hover {
+    color: white;
+}
+
+.card--section {
+    background: #141414 linear-gradient(to bottom,#2c2c2c,#141414);
+    padding: 4px 2px 4px;
+    border-radius: 6px;
+    box-shadow: 4px 4px rgb(165, 220, 17);
+
+}
+
+.card-image {
+    width: 100%;
+    height: 250px;
+    border-radius: 25px;
+    transition: transform .8s;
+}
+.card-image:hover{
+    transform: translatey(-12px);
+
+}
+
+.card--detail h3 {
+    font-size: 15px;
+    margin-top: 6px;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    color: #ff5900;
+}
+.card--detail h3:hover,
+.card--detail p:hover {
+    color: rgb(201, 201, 27);
+}
+.card--detail p {
+    font-size: 12px;
+    margin-top: 6px;
+    color: rgb(92, 87, 87);
+}
+.card--footer {
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgb(151, 142, 142);
+}
+
+@media screen and (max-width:400px){
+    .slideImageFix {
+        height: 200px;
+    }
+    .slideImageContainerFix{
+        height: 300px !important;
+    }
+    .owl-carousel-image{
+        width: 100%;
+        height: 120px !important;
+    }
+
+
+}
+@media screen and (max-width:576px){
+
+    .fixWidth {
+        width: 90%;
+        display: flex;
+        margin: auto;
+    }
+    .t-box p{
+        font-size: 12px;
+        color: green;
+    }
+}
+
+@media screen and (min-width:960px){
+    .slideImageFix {
+        height: 600px;
+    }
+
+}
+@media screen and (max-width:992px) {
+    .container-fluid .collapse > ul > li > a:hover{
+        padding-left: 8px;
+    }
+    .clear-most-viewed {
+        display: none;
+    }
+    .slideImageContainerFix{
+        height: 480px !important;
+    }
+}
+
+@media screen and (max-width:960px) and (min-width:400px){
+    .slideImageFix {
+        height: 400px;
+    }
+    .t-box p {
+        font-size: 15px;
+        color: yellow;
+    }
+}
