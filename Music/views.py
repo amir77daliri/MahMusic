@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Music
 from Singer.models import Singer
 from Album.models import Album
@@ -28,3 +28,21 @@ class MusicList(ListView):
     template_name = 'Music/music-list.html'
     paginate_by = 24
     context_object_name = 'songs'
+
+
+class MusicDetail(DetailView):
+    model = Music
+    template_name = 'Music/music-detail.html'
+    context_object_name = 'music'
+
+    def get_object(self, **kwargs):
+        global slug
+        global music
+        slug = self.kwargs.get('slug')
+        music = get_object_or_404(Music, slug=slug)
+        return music
+
+    def get_context_data(self, **kwargs):
+        context = super(MusicDetail, self).get_context_data(**kwargs)
+        context['related_list'] = Music.objects.get_related_songs_with(music)
+        return context

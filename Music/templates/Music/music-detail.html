@@ -1,0 +1,127 @@
+{% extends 'Music/base.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'Music/css/detail-style.css' %}">
+    <title>{{ music.name }}</title>
+{% endblock %}
+
+
+
+{% block main %}
+    <main>
+        <div class="container" style="border-radius: 12px;">
+            <div class="container mt-3 w-100" style="background :linear-gradient(to right,rgba(78, 77, 77, 0.8),rgba(125,125,125,.4));border-radius: 12px;">
+                <div class="category">
+                    <strong class="mt-3">{{ music.singer }} / {{ music.name }}</strong>
+                </div>
+                <div class="detail-header">
+                    <span>{{ music.name }}</span>
+                    <span>{{ music.slug }}</span>
+                </div>
+            </div>
+            <div class="container p-3" >
+                <div class="row">
+                    <div class="col-lg-4 ps-2 overflow-auto test shadow scroll" style="height: 400px; border: 2px solid #84b3b9;border-radius: 6px" dir="rtl">
+                        {% for item in related_list %}
+                            <a href="{% url 'music:detail' item.slug %}">
+                                <div class="item shadow">
+                                    <img src="{{ item.image.url }}" alt="{{ item.name }}">
+                                    <div class="description">
+                                        <p>{{ item.name }}</p>
+                                        <p>{{ item.singer }}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                    <div class="col-lg-4 col-md-6 justify-content-center p-1 pt-0" style="height: 400px;">
+                        <img src="{{ music.image.url }}" alt="" style="width: 100%;height: 400px; border-radius: 15px;">
+                    </div>
+                    <div class="col-lg-4 col-md-6" style="height: 400px;">
+                        <div class="row">
+                            <div class="col-12 mb-2 mt-2" style="width: 100%;height:186px;">
+                                <div class="song--desc--header d-flex justify-content-center align-items-center" style="background-color:#444;border-top-left-radius: 10px; border-top-right-radius: 10px;height:42px;">
+                                    Music play
+                                </div>
+                                <div class="song--desc--body" style="height: 144px;">
+                                    <div class="container-fluid">
+                                        <!--audio progress -->
+                                        <div class="audio-duration d-flex align-items-center justify-content-between">
+                                            <i class="ms-0 float-left" id="start-time" style="flex-grow: 1;">0:00</i>
+                                            <div class="range mx-3" style="flex-grow: 8; margin: auto 2px;">
+                                                <input id="duration-time" type="range" min="0" max="{{ music.music_length }}" step="1" value="0">
+                                            </div>
+                                            <i id="end-time" class="float-right" style="flex-grow: 1;width: 24px;">{{ music.music_length }}</i>
+                                        </div>
+
+                                        <!-- audio controlls-->
+                                        <div class="audio-buttons">
+                                            <span id="add-favorit"  title="like music"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                                            </svg>
+                                            </span>
+                                            <span id="play">
+                                                    <svg  id="play-btn" class="active bi bi-play-circle-fill" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 16 16">
+                                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z"/>
+                                                    </svg>
+                                                    <svg id="stop-btn" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pause-circle-fill" viewBox="0 0 16 16">
+                                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.25 5C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5zm3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5z"/>
+                                                    </svg>
+                                                </span>
+                                            <span id="like" title="save to playlist">
+                                                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 22V3C5 2.44772 5.44772 2 6 2H18C18.5523 2 19 2.44772 19 3V22L12 15.8889L5 22Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                            </span>
+                                        </div>
+                                        <!-- audio sounds -->
+                                        <div class="audio--sounds">
+                                            <input id="sound-range" type="range" dir="ltr" min="0" max="1" step=".1" style="background-color: aqua; width: 70px;">
+                                            <span id="audio-unmute" class="text-primary ms-2 active">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-volume-up-fill" viewBox="0 0 16 16">
+                                                    <path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/>
+                                                    <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"/>
+                                                    <path d="M8.707 11.182A4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182L8 5.525A3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707zM6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z"/>
+                                                  </svg>
+                                            </span>
+                                            <span id="audio-mute" class="text-danger ms-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-volume-mute" viewBox="0 0 16 16">
+                                                    <path d="M6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06zM6 5.04 4.312 6.39A.5.5 0 0 1 4 6.5H2v3h2a.5.5 0 0 1 .312.11L6 10.96V5.04zm7.854.606a.5.5 0 0 1 0 .708L12.207 8l1.647 1.646a.5.5 0 0 1-.708.708L11.5 8.707l-1.646 1.647a.5.5 0 0 1-.708-.708L10.793 8 9.146 6.354a.5.5 0 1 1 .708-.708L11.5 7.293l1.646-1.647a.5.5 0 0 1 .708 0z"/>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-2" style="width: 100%; height: 96px;">
+                                <div class="song--download--header d-flex justify-content-center align-items-center" style="height: 27.2px;background-color:#444;">
+                                    download
+                                </div>
+                                <div class="song--download--body d-flex justify-content-center align-items-center" style="height: 68px;background-color:rgba(0, 0, 0, .5);">
+                                    <a download="{{ music.name }}" href="{{ music.image.url }}">
+                                        <button class="btn btn-success ">320 kb</button>
+                                        <button class="btn btn-danger ">128 kb</button>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-12" style="width: 100%; height: 96px;">
+                                <div class="song--view--header d-flex justify-content-center align-items-center" style="height: 27.2px;background-color:#444;">
+                                    views
+                                </div>
+                                <div class="song--view--body d-flex align-items-center justify-content-center text-white" style="height: 68px;background-color:rgba(0, 0, 0, .5);border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">1024 played! </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3 p-4 pb-0">
+                    <audio id="audio">
+                        <source src="{{ music.music.url }}" type="audio/mp3">
+                    </audio>
+                </div>
+            </div>
+        </div>
+
+    </main>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'Music/js/audioControls.js' %}"></script>
+{% endblock %}

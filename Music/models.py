@@ -20,6 +20,11 @@ def upload_image_path(instance, filename):
     return f'Music/images/{final_name}'
 
 
+class MusicManager(models.Manager):
+    def get_related_songs_with(self, music):
+        return self.get_queryset().filter(singer=music.singer).exclude(slug=music.slug)
+
+
 class Music(models.Model):
     STATUS_CHOICES = (
         ('p', 'Pending'),
@@ -37,6 +42,8 @@ class Music(models.Model):
     # Relation fields :
     singer = models.ForeignKey(Singer, blank=True, null=True, on_delete=models.SET_NULL, related_name='musics')
     album = models.ForeignKey(Album, blank=True, null=True, on_delete=models.SET_NULL, related_name='musics')
+
+    objects = MusicManager()
 
     class Meta:
         ordering = ['-published_at']

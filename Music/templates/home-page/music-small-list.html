@@ -5,7 +5,7 @@
         <div class="row g-4 fixWidth">
             {% for music in new_musics %}
                 <div class="col-lg-2 col-md-4 col-sm-6">
-                    <a href="#" class="card-link">
+                    <a href="{% url 'music:detail' music.slug %}" class="card-link">
                         <div class="card--section">
                             <img class="card-image" src="{{ music.image.url }}" alt="">
                             <div class="card--detail">
