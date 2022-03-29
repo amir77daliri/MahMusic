@@ -4,6 +4,7 @@ from django.contrib.auth import (
     update_session_auth_hash
 )
 from django.urls import reverse, reverse_lazy
+from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, UpdateView, ListView
 from .tokens import account_activation_token
 from django.contrib.sites.shortcuts import get_current_site
@@ -25,7 +26,7 @@ class Login(AuthViews.LoginView):
     redirect_authenticated_user = True
 
 
-class Logout(AuthViews.LogoutView):
+class Logout(LoginRequiredMixin, AuthViews.LogoutView):
     pass
 
 
@@ -89,6 +90,7 @@ class ProfileUpdate(LoginRequiredMixin, UpdateView):
         return user
 
 
+@login_required()
 def change_password(request):
     form = ChangePasswordForm(request.user, request.POST or None)
     if request.method == 'POST':
