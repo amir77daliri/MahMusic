@@ -14,7 +14,14 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import LoginForm, SignUpForm, ProfileUpdateForm, ChangePasswordForm
+from .forms import (
+    LoginForm,
+    SignUpForm,
+    ProfileUpdateForm,
+    ChangePasswordForm,
+    MyPasswordResetForm,
+    SetNewResetPasswordForm
+)
 from Music.models import Music
 
 User = get_user_model()
@@ -72,7 +79,7 @@ def activate(request, uidb64, token):
 class Profile(LoginRequiredMixin, ListView):
     model = Music
     template_name = 'Account/profile.html'
-    paginate_by = 8
+    paginate_by = 12
     context_object_name = 'musics'
 
     def get_queryset(self):
@@ -102,3 +109,19 @@ def change_password(request):
         'form': form
     }
     return render(request, 'registration/password_change_form.html', context)
+
+
+class MyPasswordReset(AuthViews.PasswordResetView):
+    form_class = MyPasswordResetForm
+    template_name = 'registration/password_reset_form.html'
+    success_url = reverse_lazy('account:password_reset_done')
+
+
+class MyPasswordResetDone(AuthViews.PasswordResetDoneView):
+    template_name = 'registration/password_reset_done.html'
+
+
+class MyPasswordResetConfirm(AuthViews.PasswordResetConfirmView):
+    form_class = SetNewResetPasswordForm
+    template_name = 'registration/password_reset_confirm.html'
+    success_url = reverse_lazy('account:profile')
