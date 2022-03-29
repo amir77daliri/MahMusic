@@ -30,7 +30,7 @@ ALLOWED_HOSTS = []
 # Project Settings Config  :
 AUTH_USER_MODEL = 'Account.User'
 LOGIN_URL = 'account:login'
-LOGIN_REDIRECT_URL = 'homepage'
+LOGIN_REDIRECT_URL = 'account:profile'
 LOGOUT_REDIRECT_URL = 'homepage'
 # Application definition
 

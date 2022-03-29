@@ -1,5 +1,8 @@
-from django.shortcuts import render, HttpResponse, get_object_or_404
-from django.contrib.auth import views as AuthViews
+from django.shortcuts import render, HttpResponse, get_object_or_404, redirect
+from django.contrib.auth import (
+    views as AuthViews,
+    update_session_auth_hash
+)
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, UpdateView, ListView
 from .tokens import account_activation_token
@@ -10,7 +13,7 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import LoginForm, SignUpForm
+from .forms import LoginForm, SignUpForm, ProfileUpdateForm, ChangePasswordForm
 from Music.models import Music
 
 User = get_user_model()
@@ -63,3 +66,37 @@ def activate(request, uidb64, token):
         return render(request, 'registration/confirm_active_email_send.html', {})
     else:
         return HttpResponse('Activation link is invalid!')
+
+
+class Profile(LoginRequiredMixin, ListView):
+    model = Music
+    template_name = 'Account/profile.html'
+    paginate_by = 8
+    context_object_name = 'musics'
+
+    def get_queryset(self):
+        return Music.objects.all()
+
+
+class ProfileUpdate(LoginRequiredMixin, UpdateView):
+    model = User
+    form_class = ProfileUpdateForm
+    template_name = 'Account/profile_update.html'
+    success_url = reverse_lazy('account:profile')
+
+    def get_object(self, **kwargs):
+        user = get_object_or_404(User, pk=self.request.user.id)
+        return user
+
+
+def change_password(request):
+    form = ChangePasswordForm(request.user, request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return redirect('account:profile')
+    context = {
+        'form': form
+    }
+    return render(request, 'registration/password_change_form.html', context)

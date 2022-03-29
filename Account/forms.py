@@ -7,6 +7,13 @@ import re
 
 User = get_user_model()
 
+
+def validate_email(email):
+    if re.match(r'^[a-zA-Z0-9\.\_]+@[a-zA-Z0-9]+\.[a-zA-Z]{3}$', email):
+        return True
+    return False
+
+
 class LoginForm(AuthenticationForm):
     username = forms.CharField(
         label="Username",
@@ -64,7 +71,73 @@ class SignUpForm(UserCreationForm):
         raise forms.ValidationError("Incorrect Email")
 
 
-def validate_email(email):
-    if re.match(r'^[a-zA-Z0-9\.\_]+@[a-zA-Z0-9]+\.[a-zA-Z]{3}$', email):
-        return True
-    return False
+class ProfileUpdateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ProfileUpdateForm, self).__init__(*args, **kwargs)
+        self.fields['username'].disabled = True
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'first_name', 'last_name')
+        widgets = {'email': forms.EmailInput(attrs={'placeholder': 'Email'}),
+                   'first_name': forms.TextInput(attrs={'placeholder': 'first_name'}),
+                   'last_name': forms.TextInput(attrs={'placeholder': 'last_name'})
+                   }
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if validate_email(email):
+            check_email_exist = User.objects.filter(email=email).exists()
+            if check_email_exist:
+                raise forms.ValidationError("This email has been used by others")
+            return email
+        raise forms.ValidationError("Incorrect Email")
+
+
+class ChangePasswordForm(forms.Form):
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(ChangePasswordForm, self).__init__(*args, **kwargs)
+
+    old_password = forms.CharField(
+        label= "old_password",
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password', 'placeholder': 'old-password', 'autofocus': True}),
+    )
+    new_password1 = forms.CharField(
+        label="new-password",
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'placeholder': 'new-password'}),
+        strip=False,
+    )
+    new_password2 = forms.CharField(
+        label="confirm new-password",
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'placeholder': 'confirm-password'}),
+    )
+
+    """
+    Validate that the old_password field is correct.
+    """
+    def clean_old_password(self):
+        """
+        Validate that the old_password field is correct.
+        """
+        old_password = self.cleaned_data["old_password"]
+        if not self.user.check_password(old_password):
+            raise ValidationError("Wrong old password- Try again")
+        return old_password
+
+    def clean_new_password2(self):
+        password1 = self.cleaned_data['new_password1']
+        password2 = self.cleaned_data['new_password2']
+        if password1 and password2:
+            if password1 != password2:
+                raise ValidationError("New passwords dose not match")
+        return password2
+
+    def save(self, commit=True):
+        password = self.cleaned_data['new_password1']
+        self.user.set_password(password)
+        if commit:
+            self.user.save()
+        return self.user
