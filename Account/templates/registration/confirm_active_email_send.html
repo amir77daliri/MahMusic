@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <div class="box d-flex justify-content-center align-items-center flex-column">
+            <h3 class="my-2">Your Registration is complete</h3>
+
+            <p class="mt-2">
+                now you can Sign In to <span class="badge badge-success">MahMusic</span> Website
+            </p>
+            <a class="mt-2" href="{% url 'account:login' %}">
+                <button class="btn btn-primary">Sign in</button>
+            </a>
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+{% extends 'registration/base.html' %}
+
+{% block page_title %}Register{% endblock %}
+
+{% block main %}
+    <div class="container">
+	<div class="d-flex justify-content-center h-100">
+		<div class="card" style="box-sizing: border-box">
+			<div class="card-header">
+				<h3>Sign Up</h3>
+				<div class="d-flex justify-content-end social_icon">
+					<a href="{% url 'homepage' %}"><span><i class="fa fa-home"></i></span></a>
+					<!-- social authentication
+                    <span><i class="fab fa-google-plus-square"></i></span>
+					<span><i class="fab fa-twitter-square"></i></span> -->
+				</div>
+			</div>
+			<div class="card-body">
+				<form method="post"> {% csrf_token %}
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-user"></i></span>
+						</div>
+						{{ form.username }}
+                        <div  style="width: 100%"></div>
+                        {% for error in form.username.errors %}
+                            <p class="my-2 text-danger">{{ error }}</p>
+                        {% endfor %}
+					</div>
+                    <div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-envelope"></i></span>
+						</div>
+						{{ form.email }}
+                        <div  style="width: 100%"></div>
+                        {% for error in form.email.errors %}
+                            <p class="my-2 text-danger">{{ error }}</p>
+                        {% endfor %}
+					</div>
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-key"></i></span>
+						</div>
+                        {{ form.password1 }}
+                        <div  style="width: 100%"></div>
+					</div>
+                    <div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-key"></i></span>
+						</div>
+                        {{ form.password2 }}
+                        <div  style="width: 100%"></div>
+                        {% for error in form.password2.errors %}
+                            <br>
+                            <p class="text-danger" style="margin-bottom: 6px">{{ error }}</p>
+                        {% endfor %}
+					</div>
+					<div class="form-group">
+						<input type="submit" value="Register" class="btn float-right login_btn">
+					</div>
+				</form>
+			</div>
+			<div class="card-footer">
+				<div class="d-flex justify-content-center links">
+                    have an account?<a href="{% url 'account:login' %}">Sign In</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

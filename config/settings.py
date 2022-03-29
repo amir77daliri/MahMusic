@@ -29,9 +29,9 @@ ALLOWED_HOSTS = []
 
 # Project Settings Config  :
 AUTH_USER_MODEL = 'Account.User'
-
-
-
+LOGIN_URL = 'account:login'
+LOGIN_REDIRECT_URL = 'homepage'
+LOGOUT_REDIRECT_URL = 'homepage'
 # Application definition
 
 INSTALLED_APPS = [
@@ -50,6 +50,7 @@ INSTALLED_APPS = [
 
     # Installed packages :
     'mutagen',
+    'six',
 ]
 
 MIDDLEWARE = [
@@ -143,3 +144,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
