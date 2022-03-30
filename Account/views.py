@@ -1,9 +1,9 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404, redirect
 from django.contrib.auth import (
-    views as AuthViews,
+    views as auth_views,
     update_session_auth_hash
 )
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, UpdateView, ListView
 from .tokens import account_activation_token
@@ -27,13 +27,13 @@ from Music.models import Music
 User = get_user_model()
 
 
-class Login(AuthViews.LoginView):
+class Login(auth_views.LoginView):
     form_class = LoginForm
     template_name = 'registration/login.html'
     redirect_authenticated_user = True
 
 
-class Logout(LoginRequiredMixin, AuthViews.LogoutView):
+class Logout(LoginRequiredMixin, auth_views.LogoutView):
     pass
 
 
@@ -111,17 +111,17 @@ def change_password(request):
     return render(request, 'registration/password_change_form.html', context)
 
 
-class MyPasswordReset(AuthViews.PasswordResetView):
+class MyPasswordReset(auth_views.PasswordResetView):
     form_class = MyPasswordResetForm
     template_name = 'registration/password_reset_form.html'
     success_url = reverse_lazy('account:password_reset_done')
 
 
-class MyPasswordResetDone(AuthViews.PasswordResetDoneView):
+class MyPasswordResetDone(auth_views.PasswordResetDoneView):
     template_name = 'registration/password_reset_done.html'
 
 
-class MyPasswordResetConfirm(AuthViews.PasswordResetConfirmView):
+class MyPasswordResetConfirm(auth_views.PasswordResetConfirmView):
     form_class = SetNewResetPasswordForm
     template_name = 'registration/password_reset_confirm.html'
     success_url = reverse_lazy('account:profile')
