@@ -83,7 +83,7 @@ class Profile(LoginRequiredMixin, ListView):
     context_object_name = 'musics'
 
     def get_queryset(self):
-        return Music.objects.all()
+        return Music.objects.all().order_by('name')
 
 
 class ProfileUpdate(LoginRequiredMixin, UpdateView):

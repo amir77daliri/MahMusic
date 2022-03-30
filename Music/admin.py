@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Music
+from .models import Music, IPAddress
+
+admin.site.register(IPAddress)
 
 
 @admin.register(Music)

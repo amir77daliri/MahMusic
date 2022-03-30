@@ -9,7 +9,7 @@
                         <div class="card--section">
                             <img class="card-image" src="{{ music.image.url }}" alt="">
                             <div class="card--detail">
-                                <h3>{{ music.name }}</h3>
+                                <h3>{{ music.name|truncatewords:3 }}</h3>
                             </div>
                             <div class="card--footer">
                                 <span>1024 played</span>

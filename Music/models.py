@@ -20,6 +20,10 @@ def upload_image_path(instance, filename):
     return f'Music/images/{final_name}'
 
 
+class IPAddress(models.Model):
+    ip_address = models.GenericIPAddressField()
+
+
 class MusicManager(models.Manager):
     def get_related_songs_with(self, music):
         return self.get_queryset().filter(singer=music.singer).exclude(slug=music.slug)
