@@ -23,6 +23,9 @@ body{
 .container-fluid .collapse > ul > li > a  {
     color: rgb(209, 241, 25) !important;
 }
+.container-fluid .collapse > ul > li > a:hover{
+    color: white !important;
+}
 .container-fluid .collapse > ul > li:hover {
     background-color: #000000;
     border-radius: 10px;
