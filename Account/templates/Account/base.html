@@ -120,5 +120,24 @@
 <!-- AdminLTE -->
 <script src="{% static 'Account/panel_admin/dist/js/adminlte.js' %}"></script>
 
+<!-- custom script -->
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+{% comment %}<script>
+    let element = document.querySelector('#past-7')
+    let csrf = Cookies.get('csrftoken')
+    element.addEventListener('click', e => {
+        e.preventDefault()
+        let requestOptions = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrf,
+                'title': 'pass7'
+            },
+        };
+        fetch('{% url "account:profile" %}', requestOptions)
+    })
+
+</script>{% endcomment %}
 </body>
 </html>

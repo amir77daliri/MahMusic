@@ -35,29 +35,33 @@
                     <th>Music</th>
                     <th>Singer</th>
                     <th>Album</th>
+                    <th>views</th>
                     {% if request.user.is_authenticated %}
                         <th>Status</th>
                     {% endif %}
                   </tr>
                   </thead>
                   <tbody>
-                  {% for music in musics %}
+                  {% for music in object_list %}
                       <tr>
-                        <td>
-                            <a href="{% url 'music:detail' music.slug %}">
-                                <img src="{{ music.image.url }}" alt="{{ music.name }}" class="img-circle img-size-32 mr-2">
-                                {{ music.name }}
-                            </a>
-                        </td>
-                        <td>{{ music.singer }}</td>
-                        <td>
-                            {{ music.album }}
-                        </td>
-                      {% if request.user.is_authenticated %}
                           <td>
-                            {{ music.status }}
+                              <a href="{% url 'music:detail' music.slug %}">
+                                  <img src="{{ music.image.url }}" alt="{{ music.name }}" class="img-circle img-size-32 mr-2">
+                                  {{ music.name }}
+                              </a>
                           </td>
-                      {% endif %}
+                          <td>{{ music.singer }}</td>
+                          <td>
+                              {{ music.album }}
+                          </td>
+                          <td>
+                              {{ music.views }}
+                          </td>
+                          {% if request.user.is_authenticated %}
+                              <td>
+                                  {{ music.status }}
+                              </td>
+                          {% endif %}
                       </tr>
                   {% endfor %}
                   </tbody>

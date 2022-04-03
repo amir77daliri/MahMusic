@@ -1,8 +1,10 @@
+from django.http import JsonResponse, Http404
 from django.shortcuts import render, HttpResponse, get_object_or_404, redirect
 from django.contrib.auth import (
     views as auth_views,
     update_session_auth_hash
 )
+from django.db.models import Count, Q
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, UpdateView, ListView
@@ -23,6 +25,7 @@ from .forms import (
     SetNewResetPasswordForm
 )
 from Music.models import Music
+from datetime import datetime, timedelta
 
 User = get_user_model()
 
@@ -80,10 +83,32 @@ class Profile(LoginRequiredMixin, ListView):
     model = Music
     template_name = 'Account/profile.html'
     paginate_by = 12
-    context_object_name = 'musics'
 
     def get_queryset(self):
-        return Music.objects.all().order_by('name')
+        self.active_link = 'All'
+        request = self.request
+        query_filter = request.GET.get('filter')
+        if query_filter == 'new':
+            self.active_link = 'new'
+            return Music.objects.all()
+        elif query_filter == 'last-week':
+            self.active_link = 'last-week'
+            last_week = datetime.today() - timedelta(days=7)
+            return Music.objects.annotate(count=Count('hits', filter=Q(musicviewshit__created_at__gt=last_week))).order_by('-count')
+        elif query_filter == 'last-month':
+            self.active_link = 'last-month'
+            last_month = datetime.today() - timedelta(days=30)
+            return Music.objects.annotate(count=Count('hits', filter=Q(musicviewshit__created_at__gt=last_month))).order_by('-count')
+
+        return Music.objects.all().order_by('-views', 'name')
+
+    def get_context_data(self, **kwargs):
+        context = super(Profile, self).get_context_data(**kwargs)
+        if self.active_link:
+            context['active_link'] = self.active_link
+        else:
+            context['active_link'] = None
+        return context
 
 
 class ProfileUpdate(LoginRequiredMixin, UpdateView):

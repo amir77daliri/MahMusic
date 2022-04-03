@@ -49,7 +49,7 @@ class Music(models.Model):
 
     # Views Fields :
     views = models.PositiveIntegerField(default=1024, blank=True)
-    hits = models.ManyToManyField(IPAddress, through="MusicViewsHit", blank=True, related_name='views')
+    hits = models.ManyToManyField(IPAddress, through="MusicViewsHit", blank=True, related_name='hits')
 
     objects = MusicManager()
 
@@ -61,9 +61,7 @@ class Music(models.Model):
     thumbnail_tag.short_description = "thumbnail"
 
     def get_views_count(self):
-        self.views = self.views + self.hits.count()
-        self.save()
-        return self.views
+        return self.views + self.hits.count()
 
     def __str__(self):
         return self.name

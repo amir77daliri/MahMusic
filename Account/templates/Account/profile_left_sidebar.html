@@ -1,6 +1,7 @@
 {% load static %}
 {% url 'account:profile' as profile_path %}
 {% url 'account:profile-update' as profile_info_path %}
+{% url 'http://127.0.0.1:8000/account/profile/?filter=last-month' as last_month %}
 <aside class="main-sidebar sidebar-dark-primary elevation-4" style="height: 100vh">
     <!-- Brand Logo -->
     <a href="profile.html" class="brand-link">
@@ -27,34 +28,37 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
             <li class="nav-item has-treeview menu-open">
-            <a href="{{ profile_path }}" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                musics
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="{{ profile_path }}" class="nav-link {% if request.path == profile_path %} active {% endif %}">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>All</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>New</p>
-                    </a>
-                </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Most viewed</p>
+                <a href="{{ profile_path }}" class="nav-link">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <p>musics<i class="right fas fa-angle-left"></i></p>
                 </a>
-              </li>
-            </ul>
-          </li>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ profile_path }}" class="nav-link {% if active_link == 'All' %} active {% endif %}">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>All</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="http://127.0.0.1:8000/account/profile/?filter=new" class="nav-link {% if active_link == 'new' %} active {% endif %}">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>New</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="http://127.0.0.1:8000/account/profile/?filter=last-week" class="nav-link {% if active_link == 'last-week' %} active {% endif %}" id="past-7">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Most viewed in last week</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="http://127.0.0.1:8000/account/profile/?filter=last-month" class="nav-link {% if active_link == 'last-month' %} active {% endif %}">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Most viewed in last month</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
             <li class="nav-item has-treeview menu-open">
                 <a href="{{ profile_path }}" class="nav-link">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
