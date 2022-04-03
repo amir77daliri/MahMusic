@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.db.models import Count
 from .models import Album
 from Music.models import Music
 from django.views.generic import ListView, DetailView
@@ -10,6 +11,9 @@ class AlbumList(ListView):
     paginate_by = 24
     context_object_name = 'albums'
 
+    def get_queryset(self):
+        albums = Album.objects.annotate(count=Count('musics')).order_by('-count')
+        return albums
 
 class AlbumDetail(DetailView):
     model = Album
@@ -25,6 +29,6 @@ class AlbumDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(AlbumDetail, self).get_context_data(**kwargs)
-        context['album_songs'] = album.musics.all()
+        context['album_songs'] = album.musics.all().order_by('name')
         context['other_albums_of_same_singer'] = Album.objects.filter(singer=album.singer).exclude(slug=slug)
         return context

@@ -1,7 +1,13 @@
 from django.contrib import admin
-from .models import Music, IPAddress
+from .models import Music, IPAddress, MusicViewsHit
 
 admin.site.register(IPAddress)
+
+
+class MusicManyInline(admin.StackedInline):
+    model = MusicViewsHit
+    extra = 0
+    classes = ('collapse',)
 
 
 @admin.register(Music)
@@ -10,7 +16,7 @@ class MusicAdmin(admin.ModelAdmin):
     list_filter = ['published_at', 'status']
     search_fields = ('name', 'music')
     actions = ['make_accept', 'make_pending']
-
+    inlines = [MusicManyInline]
 
     def make_accept(self, request, queryset):
         changed_numbers = queryset.update(status='A')

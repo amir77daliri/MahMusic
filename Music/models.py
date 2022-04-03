@@ -47,6 +47,10 @@ class Music(models.Model):
     singer = models.ForeignKey(Singer, blank=True, null=True, on_delete=models.SET_NULL, related_name='musics')
     album = models.ForeignKey(Album, blank=True, null=True, on_delete=models.SET_NULL, related_name='musics')
 
+    # Views Fields :
+    views = models.PositiveIntegerField(default=1024, blank=True)
+    hits = models.ManyToManyField(IPAddress, through="MusicViewsHit", blank=True, related_name='views')
+
     objects = MusicManager()
 
     class Meta:
@@ -55,6 +59,11 @@ class Music(models.Model):
     def thumbnail_tag(self):
         return format_html("<img width=80 height=80 style='border-radius:5px;'src='{}'>".format(self.image.url))
     thumbnail_tag.short_description = "thumbnail"
+
+    def get_views_count(self):
+        self.views = self.views + self.hits.count()
+        self.save()
+        return self.views
 
     def __str__(self):
         return self.name
@@ -65,3 +74,8 @@ class Music(models.Model):
         self.music_length = time
         super(Music, self).save(*args, **kwargs)
 
+
+class MusicViewsHit(models.Model):
+    ip_address = models.ForeignKey(IPAddress, on_delete=models.CASCADE)
+    music = models.ForeignKey(Music, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)

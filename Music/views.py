@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Music
+from .models import Music, MusicViewsHit
 from Singer.models import Singer
 from Album.models import Album
 from django.views.generic import ListView, DetailView
+
 
 # Home page
 def home(request):
@@ -38,6 +39,9 @@ class MusicDetail(DetailView):
         global music
         slug = self.kwargs.get('slug')
         music = get_object_or_404(Music, slug=slug)
+        ip_address = self.request.user.ip_address
+        if ip_address not in music.hits.all():
+            MusicViewsHit.objects.create(ip_address=ip_address, music=music)
         return music
 
     def get_context_data(self, **kwargs):

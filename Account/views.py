@@ -30,7 +30,7 @@ User = get_user_model()
 class Login(auth_views.LoginView):
     form_class = LoginForm
     template_name = 'registration/login.html'
-    redirect_authenticated_user = True
+    # redirect_authenticated_user = True
 
 
 class Logout(LoginRequiredMixin, auth_views.LogoutView):
@@ -95,6 +95,13 @@ class ProfileUpdate(LoginRequiredMixin, UpdateView):
     def get_object(self, **kwargs):
         user = get_object_or_404(User, pk=self.request.user.id)
         return user
+
+    def get_form_kwargs(self):
+        kwargs = super(ProfileUpdate, self).get_form_kwargs()
+        kwargs.update(
+            {'user': self.request.user}
+        )
+        return kwargs
 
 
 @login_required()

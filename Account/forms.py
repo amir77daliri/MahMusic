@@ -77,6 +77,7 @@ class SignUpForm(UserCreationForm):
 
 class ProfileUpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
         super(ProfileUpdateForm, self).__init__(*args, **kwargs)
         self.fields['username'].disabled = True
 
@@ -91,7 +92,7 @@ class ProfileUpdateForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if validate_email(email):
-            check_email_exist = User.objects.filter(email=email).exists()
+            check_email_exist = User.objects.filter(email=email).exclude(email=self.user.email).exists()
             if check_email_exist:
                 raise forms.ValidationError("This email has been used by others")
             return email

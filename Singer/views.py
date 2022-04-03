@@ -10,6 +10,9 @@ class SingerList(ListView):
     paginate_by = 24
     context_object_name = 'singers'
 
+    def get_queryset(self):
+        singers = Singer.objects.all().order_by('name')
+        return singers
 
 class SingerDetail(DetailView):
     model = Singer

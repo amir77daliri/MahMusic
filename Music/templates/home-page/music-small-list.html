@@ -12,7 +12,7 @@
                                 <h3>{{ music.name|truncatewords:3 }}</h3>
                             </div>
                             <div class="card--footer">
-                                <span>1024 played</span>
+                                <span>{{ music.get_views_count }}</span>
                                 <span>pop</span>
                             </div>
                         </div>
