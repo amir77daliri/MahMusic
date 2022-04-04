@@ -1,4 +1,7 @@
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.http import require_POST
+
 from .models import Music, MusicViewsHit
 from Singer.models import Singer
 from Album.models import Album
@@ -48,3 +51,24 @@ class MusicDetail(DetailView):
         context = super(MusicDetail, self).get_context_data(**kwargs)
         context['related_list'] = Music.objects.get_related_songs_with(music)
         return context
+
+@require_POST
+def like_music(request):
+    if request.user.is_authenticated:
+        music_id = request.POST.get('id')
+        action = request.POST.get('action')
+        print(music_id, action)
+        if music_id and action:
+            try:
+                music = get_object_or_404(Music, id=music_id)
+                if action == 'like':
+                    music.users_like.add(request.user)
+                    return JsonResponse({'status': 'add'})
+                else:
+                    music.users_like.remove(request.user)
+                    return JsonResponse({'status': 'remove'})
+            except:
+                pass
+        return JsonResponse({'status': 'error'})
+    else:
+        return JsonResponse({'status': 'not authorize'})

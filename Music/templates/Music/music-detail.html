@@ -56,20 +56,21 @@
 
                                         <!-- audio controlls-->
                                         <div class="audio-buttons">
-                                            <span id="add-favorit"  title="like music"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
-                                            </svg>
-                                            </span>
-                                            <span id="play">
-                                                    <svg  id="play-btn" class="active bi bi-play-circle-fill" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 16 16">
-                                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z"/>
-                                                    </svg>
-                                                    <svg id="stop-btn" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pause-circle-fill" viewBox="0 0 16 16">
-                                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.25 5C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5zm3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5z"/>
-                                                    </svg>
+                                            <a href="#" >
+                                                <span  title="like music">
+                                                    <i class="fa fa-heart" aria-hidden="true" style="font-size: 24px;{% if request.user in music.users_like %}color:red {% else %}color:yellow{% endif %}" id="add-favorite" data-id="{{ music.id }}" data-action="{% if request.user in music.users_like %}un{% endif %}like"></i>
                                                 </span>
-                                            <span id="like" title="save to playlist">
-                                                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 22V3C5 2.44772 5.44772 2 6 2H18C18.5523 2 19 2.44772 19 3V22L12 15.8889L5 22Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                            </a>
+                                            <span id="play">
+                                                <svg  id="play-btn" class="active bi bi-play-circle-fill" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 16 16">
+                                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z"/>
+                                                </svg>
+                                                <svg id="stop-btn" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pause-circle-fill" viewBox="0 0 16 16">
+                                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.25 5C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5zm3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5z"/>
+                                                </svg>
+                                            </span>
+                                            <span id="add-playlist" title="save to playlist">
+                                                <i class='fa fa-bookmark-o' style="font-size: 26px"></i>
                                             </span>
                                         </div>
                                         <!-- audio sounds -->
@@ -118,10 +119,83 @@
                 </div>
             </div>
         </div>
+       <!-- Button trigger modal -->
 
+<!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Need Login</h5>
+        <button type="button" class="btn-close" id="close-modal-lab" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        To add a song to your favorites, you must first be a member of the site
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="close-modal" data-bs-dismiss="modal">Close</button>
+          <a href="{% url 'account:register' %}"><button type="button" class="btn btn-primary">Register</button></a>
+      </div>
+    </div>
+  </div>
+</div>
     </main>
 {% endblock %}
 
 {% block scripts %}
     <script src="{% static 'Music/js/audioControls.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{#    <script src="{% static 'Music/js/like_save.js' %}"></script>#}
+    <script>
+        function getCsrf() {
+            let cookies = document.cookie.split(';')
+            let csrf
+            for(let i=0;i<cookies.length;i++){
+                let key = cookies[i].split('=')
+                console.log(key[0])
+                if(key[0] === ' csrftoken' || key[0]=== 'csrftoken'){
+                    csrf = key[1]
+                    return csrf
+                }
+            }
+        }
+        function  csrfSafeMethod(method) {
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", getCsrf());
+                }
+            }
+        })
+        $(document).ready(function () {
+            $('#add-favorite').click((e) => {
+                e.preventDefault()
+                $.post('{% url "music:like" %}', {
+                    id: $('#add-favorite').data('id'),
+                    action: $('#add-favorite').data('action'),
+                },function (data) {
+                    if(data['status'] === 'add'){
+                        $('#add-favorite').css('color', 'red');
+                        $('#add-favorite').data('action', 'unlike');
+                    }else if(data['status'] === 'remove'){
+                        $('#add-favorite').css('color', 'yellow');
+                        $('#add-favorite').data('action', 'like');
+                    }else if(data['status'] === 'not authorize') {
+                        $('#exampleModal').addClass('show')
+                        $('#exampleModal').css('display','block')
+                        $('#close-modal').click ( e => {
+                            $('#exampleModal').removeClass('show')
+                            $('#exampleModal').css('display','none')
+                        })
+                        $('#close-modal-lab').click( e => {
+                            $('#exampleModal').removeClass('show')
+                            $('#exampleModal').css('display','none')
+                        })
+                    }
+                })
+            })
+        })
+    </script>
 {% endblock %}

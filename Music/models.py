@@ -5,6 +5,7 @@ from django.utils.html import format_html
 from mutagen.mp3 import MP3
 from Singer.models import Singer
 from Album.models import Album
+from django.contrib.auth import get_user_model
 import os
 
 
@@ -51,6 +52,8 @@ class Music(models.Model):
     views = models.PositiveIntegerField(default=1024, blank=True)
     hits = models.ManyToManyField(IPAddress, through="MusicViewsHit", blank=True, related_name='hits')
 
+    # like and save :
+    users_like = models.ManyToManyField(get_user_model(), blank=True, related_name='images_liked')
     objects = MusicManager()
 
     class Meta:
