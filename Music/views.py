@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST
 
-from .models import Music, MusicViewsHit
+from .models import Music, MusicViewsHit, PlayList
 from Singer.models import Singer
 from Album.models import Album
 from django.views.generic import ListView, DetailView
@@ -57,7 +57,6 @@ def like_music(request):
     if request.user.is_authenticated:
         music_id = request.POST.get('id')
         action = request.POST.get('action')
-        print(music_id, action)
         if music_id and action:
             try:
                 music = get_object_or_404(Music, id=music_id)
@@ -66,6 +65,27 @@ def like_music(request):
                     return JsonResponse({'status': 'add'})
                 else:
                     music.users_like.remove(request.user)
+                    return JsonResponse({'status': 'remove'})
+            except:
+                pass
+        return JsonResponse({'status': 'error'})
+    else:
+        return JsonResponse({'status': 'not authorize'})
+
+@require_POST
+def add_to_playlist(request):
+    if request.user.is_authenticated:
+        music_id = request.POST.get('id')
+        action = request.POST.get('action')
+        print(music_id, action)
+        if music_id and action:
+            try:
+                music = get_object_or_404(Music, id=music_id)
+                if action == 'save':
+                    music.user_playlist.add(request.user)
+                    return JsonResponse({'status': 'save'})
+                else:
+                    music.user_playlist.remove(request.user)
                     return JsonResponse({'status': 'remove'})
             except:
                 pass

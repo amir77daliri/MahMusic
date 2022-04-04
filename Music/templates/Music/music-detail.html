@@ -57,8 +57,8 @@
                                         <!-- audio controlls-->
                                         <div class="audio-buttons">
                                             <a href="#" >
-                                                <span  title="like music">
-                                                    <i class="fa fa-heart" aria-hidden="true" style="font-size: 24px;{% if request.user in music.users_like %}color:red {% else %}color:yellow{% endif %}" id="add-favorite" data-id="{{ music.id }}" data-action="{% if request.user in music.users_like %}un{% endif %}like"></i>
+                                                <span title="like music">
+                                                    <i class="fa fa-heart" aria-hidden="true" style="font-size: 24px;{% if request.user in music.users_like.all %}color:red {% else %}color:#d2efa3{% endif %}" id="add-favorite" data-id="{{ music.id }}" data-action="{% if request.user in music.users_like.all %}un{% endif %}like"></i>
                                                 </span>
                                             </a>
                                             <span id="play">
@@ -69,9 +69,11 @@
                                                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.25 5C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5zm3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5z"/>
                                                 </svg>
                                             </span>
-                                            <span id="add-playlist" title="save to playlist">
-                                                <i class='fa fa-bookmark-o' style="font-size: 26px"></i>
-                                            </span>
+                                            <a href="#">
+                                                <span title="save to playlist">
+                                                    <i class='fa fa-bookmark' style="font-size: 26px;{% if request.user in music.user_playlist.all %}color:black {% else %}color:#d2efa3{% endif %}" id="add-playlist" data-id="{{ music.id }}" data-action="{% if request.user in music.user_playlist.all %}un{% endif %}save"></i>
+                                                </span>
+                                            </a>
                                         </div>
                                         <!-- audio sounds -->
                                         <div class="audio--sounds">
@@ -152,7 +154,6 @@
             let csrf
             for(let i=0;i<cookies.length;i++){
                 let key = cookies[i].split('=')
-                console.log(key[0])
                 if(key[0] === ' csrftoken' || key[0]=== 'csrftoken'){
                     csrf = key[1]
                     return csrf
@@ -180,8 +181,35 @@
                         $('#add-favorite').css('color', 'red');
                         $('#add-favorite').data('action', 'unlike');
                     }else if(data['status'] === 'remove'){
-                        $('#add-favorite').css('color', 'yellow');
+                        $('#add-favorite').css('color', '#d2efa3');
                         $('#add-favorite').data('action', 'like');
+                    }else if(data['status'] === 'not authorize') {
+                        $('#exampleModal').addClass('show')
+                        $('#exampleModal').css('display','block')
+                        $('#close-modal').click ( e => {
+                            $('#exampleModal').removeClass('show')
+                            $('#exampleModal').css('display','none')
+                        })
+                        $('#close-modal-lab').click( e => {
+                            $('#exampleModal').removeClass('show')
+                            $('#exampleModal').css('display','none')
+                        })
+                    }
+                })
+            })
+            $('#add-playlist').click((e) => {
+                e.preventDefault()
+                console.log($('#add-playlist').data('id'))
+                $.post('{% url "music:save" %}', {
+                    id: $('#add-playlist').data('id'),
+                    action: $('#add-playlist').data('action'),
+                },function (data) {
+                    if(data['status'] === 'save'){
+                        $('#add-playlist').css('color', 'black');
+                        $('#add-playlist').data('action', 'unsave');
+                    }else if(data['status'] === 'remove'){
+                        $('#add-playlist').css('color', '#d2efa3');
+                        $('#add-playlist').data('action', 'save');
                     }else if(data['status'] === 'not authorize') {
                         $('#exampleModal').addClass('show')
                         $('#exampleModal').css('display','block')

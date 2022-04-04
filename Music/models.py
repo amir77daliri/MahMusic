@@ -54,6 +54,8 @@ class Music(models.Model):
 
     # like and save :
     users_like = models.ManyToManyField(get_user_model(), blank=True, related_name='images_liked')
+    user_playlist = models.ManyToManyField(get_user_model(), through="PlayList", blank=True, related_name='user_playlist')
+
     objects = MusicManager()
 
     class Meta:
@@ -80,3 +82,12 @@ class MusicViewsHit(models.Model):
     ip_address = models.ForeignKey(IPAddress, on_delete=models.CASCADE)
     music = models.ForeignKey(Music, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class PlayList(models.Model):
+    user = models.ForeignKey(get_user_model(), blank=True, on_delete=models.CASCADE)
+    music = models.ForeignKey(Music, blank=True, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
