@@ -41,19 +41,19 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="http://127.0.0.1:8000/account/profile/?filter=new" class="nav-link {% if active_link == 'new' %} active {% endif %}">
+                        <a href="{% url 'account:profile' %}?filter=new" class="nav-link {% if active_link == 'new' %} active {% endif %}">
                             <i class="far fa-circle nav-icon"></i>
                             <p>New</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="http://127.0.0.1:8000/account/profile/?filter=last-week" class="nav-link {% if active_link == 'last-week' %} active {% endif %}" id="past-7">
+                        <a href="{% url 'account:profile' %}?filter=last-week" class="nav-link {% if active_link == 'last-week' %} active {% endif %}" id="past-7">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Most viewed in last week</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="http://127.0.0.1:8000/account/profile/?filter=last-month" class="nav-link {% if active_link == 'last-month' %} active {% endif %}">
+                        <a href="{% url 'account:profile' %}?filter=last-month" class="nav-link {% if active_link == 'last-month' %} active {% endif %}">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Most viewed in last month</p>
                         </a>

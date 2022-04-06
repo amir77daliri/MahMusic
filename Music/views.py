@@ -1,3 +1,5 @@
+import json
+
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST
@@ -77,7 +79,6 @@ def add_to_playlist(request):
     if request.user.is_authenticated:
         music_id = request.POST.get('id')
         action = request.POST.get('action')
-        print(music_id, action)
         if music_id and action:
             try:
                 music = get_object_or_404(Music, id=music_id)
@@ -92,3 +93,34 @@ def add_to_playlist(request):
         return JsonResponse({'status': 'error'})
     else:
         return JsonResponse({'status': 'not authorize'})
+
+
+@require_POST
+def del_from_favorite(request):
+    if request.user.is_authenticated:
+        data = request.POST.get('data')
+        data = json.loads(data)
+        for i in data:
+            music_id = int(i['id'])
+            try:
+                music = get_object_or_404(Music, id=music_id)
+                music.users_like.remove(request.user)
+            except:
+                pass
+
+    return JsonResponse({'data': 'ok'})
+
+@require_POST
+def del_from_playlist(request):
+    if request.user.is_authenticated:
+        data = request.POST.get('data')
+        data = json.loads(data)
+        for i in data:
+            music_id = int(i['id'])
+            try:
+                music = get_object_or_404(Music, id=music_id)
+                music.user_playlist.remove(request.user)
+            except:
+                pass
+
+    return JsonResponse({'data': 'ok'})

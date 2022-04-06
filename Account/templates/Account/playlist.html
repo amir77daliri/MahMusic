@@ -37,6 +37,9 @@
                     <th>Singer</th>
                     <th>Album</th>
                     <th>views</th>
+                    <th>
+                        <button id="delete-button" class="btn btn-danger" style="display: inline-block;height: 30px;font-size: 12px">Delete</button>
+                    </th>
                     {% if request.user.is_staff %}
                         <th>Status</th>
                     {% endif %}
@@ -57,6 +60,9 @@
                           </td>
                           <td>
                               {{ music.views }}
+                          </td>
+                          <td class="action-checkbox">
+                              <input type="checkbox" name="action-select" value="{{ music.id }}" class="action-check">
                           </td>
                           {% if request.user.is_staff %}
                               <td>
@@ -98,4 +104,34 @@
       <!-- /.container-fluid -->
     </div>
     <!-- /.content -->
+{% endblock %}
+{% block custom_js %}
+    <script src="{% static 'Music/js/ajaxSetup.js' %}"></script>
+    <script>
+        $('#delete-button').click(() => {
+            let inputs = Array.from($('.action-check'))
+            let checkedInputs = []
+            inputs.forEach(input => {
+                if (input.checked){
+                    checkedInputs.push(input)
+                }
+            })
+            if (!(checkedInputs.length === 0)){
+                let data = []
+                checkedInputs.forEach(input => {
+                    let obj = {
+                        id: input.value
+                    }
+                    data.push(obj)
+                })
+                const jsonData = JSON.stringify(data)
+                $.post('{% url "music:del_playlist" %}', {
+                    data: jsonData
+                },function (data){
+                    window.location.reload(true)
+                })
+
+            }
+        })
+    </script>
 {% endblock %}
