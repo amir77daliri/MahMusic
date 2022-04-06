@@ -24,59 +24,10 @@ from .forms import (
     MyPasswordResetForm,
     SetNewResetPasswordForm
 )
-from Music.models import Music
+from Music.models import Music, PlayList
 from datetime import datetime, timedelta
 
 User = get_user_model()
-
-
-class Login(auth_views.LoginView):
-    form_class = LoginForm
-    template_name = 'registration/login.html'
-    # redirect_authenticated_user = True
-
-
-class Logout(LoginRequiredMixin, auth_views.LogoutView):
-    pass
-
-
-class Register(CreateView):
-    form_class = SignUpForm
-    template_name = 'registration/register.html'
-
-    def form_valid(self, form):
-        user = form.save(commit=False)
-        user.is_active = False
-        user.save()
-        current_site = get_current_site(self.request)
-        mail_subject = 'Activate your blog account.'
-        message = render_to_string('registration/active_account_email.html', {
-            'user': user,
-            'domain': current_site.domain,
-            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-            'token': account_activation_token.make_token(user)
-        })
-        to_email = form.cleaned_data.get('email')
-        email = EmailMessage(
-            mail_subject, message, to=[to_email]
-        )
-        email.send()
-        return render(self.request, 'registration/confirm_email_send.html', {'email': form.cleaned_data.get('email')})
-
-
-def activate(request, uidb64, token):
-    try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
-    if user is not None and account_activation_token.check_token(user, token):
-        user.is_active = True
-        user.save()
-        # return redirect('home')
-        return render(request, 'registration/confirm_active_email_send.html', {})
-    else:
-        return HttpResponse('Activation link is invalid!')
 
 
 class Profile(LoginRequiredMixin, ListView):
@@ -127,6 +78,73 @@ class ProfileUpdate(LoginRequiredMixin, UpdateView):
             {'user': self.request.user}
         )
         return kwargs
+
+
+class FavoritMusic(LoginRequiredMixin, ListView):
+    template_name = 'Account/favorite.html'
+    paginate_by = 12
+    context_object_name = 'favorite_songs'
+
+    def get_queryset(self):
+        return Music.objects.filter(users_like=self.request.user)
+
+
+class PlayListView(LoginRequiredMixin, ListView):
+    template_name = 'Account/playlist.html'
+    paginate_by = 12
+    context_object_name = 'playlist'
+
+    def get_queryset(self):
+        return Music.objects.filter(user_playlist=self.request.user).order_by('-playlist__created_at')
+
+
+class Login(auth_views.LoginView):
+    form_class = LoginForm
+    template_name = 'registration/login.html'
+    # redirect_authenticated_user = True
+
+
+class Logout(LoginRequiredMixin, auth_views.LogoutView):
+    pass
+
+
+class Register(CreateView):
+    form_class = SignUpForm
+    template_name = 'registration/register.html'
+
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.is_active = False
+        user.save()
+        current_site = get_current_site(self.request)
+        mail_subject = 'Activate your blog account.'
+        message = render_to_string('registration/active_account_email.html', {
+            'user': user,
+            'domain': current_site.domain,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': account_activation_token.make_token(user)
+        })
+        to_email = form.cleaned_data.get('email')
+        email = EmailMessage(
+            mail_subject, message, to=[to_email]
+        )
+        email.send()
+        return render(self.request, 'registration/confirm_email_send.html', {'email': form.cleaned_data.get('email')})
+
+
+def activate(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        # return redirect('home')
+        return render(request, 'registration/confirm_active_email_send.html', {})
+    else:
+        return HttpResponse('Activation link is invalid!')
 
 
 @login_required()

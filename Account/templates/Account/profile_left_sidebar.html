@@ -1,7 +1,8 @@
 {% load static %}
 {% url 'account:profile' as profile_path %}
 {% url 'account:profile-update' as profile_info_path %}
-{% url 'http://127.0.0.1:8000/account/profile/?filter=last-month' as last_month %}
+{% url 'account:favorite' as favorite_pass %}
+{% url 'account:playlist' as playlist_pass %}
 <aside class="main-sidebar sidebar-dark-primary elevation-4" style="height: 100vh">
     <!-- Brand Logo -->
     <a href="profile.html" class="brand-link">
@@ -69,6 +70,18 @@
                         <a href="{{ profile_info_path }}" class="nav-link {% if request.path == profile_info_path %} active {% endif %}">
                             <i class="far fa-circle nav-icon"></i>
                             <p>profile</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'account:favorite' %}" class="nav-link {% if request.path == favorite_pass %} active {% endif %}">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>My-Favorite</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'account:playlist' %}" class="nav-link {% if request.path == playlist_pass %} active {% endif %}">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>My-Playlist</p>
                         </a>
                     </li>
                 </ul>
