@@ -18,7 +18,9 @@
     background-color: #555;
 }
 
-
+.h2-color{
+    color: yellow !important;
+}
 
 .owl-carousel-image {
     width: 100%;

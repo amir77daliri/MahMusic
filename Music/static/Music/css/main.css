@@ -33,6 +33,8 @@ body{
 .navbar-brand {
     color: rgb(199, 211, 37) !important;
 }
+
+
 .item-x {
     margin: 4px 2px 4px 2px;
     display: flex;

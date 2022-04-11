@@ -6,6 +6,7 @@ app_name = 'account'
 urlpatterns = [
     path('profile/', views.Profile.as_view(), name='profile'),
     path('profile/info', views.ProfileUpdate.as_view(), name='profile-update'),
+    path('search/', views.search, name='search'),
     path('favorit/', views.FavoritMusic.as_view(), name='favorite'),
     path('playlist/', views.PlayListView.as_view(), name='playlist'),
     # Registration and Authentication :

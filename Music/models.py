@@ -6,6 +6,7 @@ from mutagen.mp3 import MP3
 from Singer.models import Singer
 from Album.models import Album
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 import os
 
 
@@ -28,6 +29,17 @@ class IPAddress(models.Model):
 class MusicManager(models.Manager):
     def get_related_songs_with(self, music):
         return self.get_queryset().filter(singer=music.singer).exclude(slug=music.slug)
+
+    def search(self, query):
+        lookup = (
+            Q(status='A') & (
+            Q(name__icontains=query) |
+            Q(slug__icontains=query) |
+            Q(singer__name__icontains=query) |
+            Q(album__name__icontains=query)
+            )
+        )
+        return self.get_queryset().filter(lookup).distinct()
 
 
 class Music(models.Model):

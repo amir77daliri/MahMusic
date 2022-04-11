@@ -17,12 +17,19 @@
     min-height: 30px;
 }
 .bio-body{
+    padding: 8px;
     display: flex;
     flex-wrap: wrap;
-    overflow: auto;
     height: 85%;
     color: white;
     justify-content: flex-start;
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
+}
+.bio-body textarea{
+    width: 100%;
+    background: none;
+    color: white;
+    padding: 8px;
+    border: none;
 }

@@ -20,6 +20,7 @@ class Singer(models.Model):
     name = models.CharField(max_length=150)
     slug = models.CharField(max_length=200, blank=True)
     image = models.ImageField(upload_to=upload_image_path, blank=True)
+    description = models.TextField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

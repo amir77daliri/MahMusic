@@ -1,9 +1,8 @@
 import json
-
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST
-
+from .common.decorators import ajax_required
 from .models import Music, MusicViewsHit, PlayList
 from Singer.models import Singer
 from Album.models import Album
@@ -54,6 +53,8 @@ class MusicDetail(DetailView):
         context['related_list'] = Music.objects.get_related_songs_with(music)
         return context
 
+
+@ajax_required
 @require_POST
 def like_music(request):
     if request.user.is_authenticated:
@@ -74,6 +75,8 @@ def like_music(request):
     else:
         return JsonResponse({'status': 'not authorize'})
 
+
+@ajax_required
 @require_POST
 def add_to_playlist(request):
     if request.user.is_authenticated:
@@ -95,6 +98,7 @@ def add_to_playlist(request):
         return JsonResponse({'status': 'not authorize'})
 
 
+@ajax_required
 @require_POST
 def del_from_favorite(request):
     if request.user.is_authenticated:
@@ -110,6 +114,8 @@ def del_from_favorite(request):
 
     return JsonResponse({'data': 'ok'})
 
+
+@ajax_required
 @require_POST
 def del_from_playlist(request):
     if request.user.is_authenticated:

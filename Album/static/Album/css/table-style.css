@@ -44,3 +44,6 @@ tr > td:nth-child(2) img{
 th{
     color: #dfe85b;
 }
+.h2-color{
+    color: yellow !important;
+}

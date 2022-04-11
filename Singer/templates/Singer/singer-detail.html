@@ -19,7 +19,7 @@
                             <h3>Biography</h3>
                         </div>
                         <div class="bio-body">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, assumenda dolor dolore ea est explicabo fugit ipsam itaque iure maiores molestias natus officia quas qui ratione repudiandae sit, suscipit voluptate.</p>
+                            <textarea>{{ singer.description }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
         {% if singer_musics %}
             <section class="py-4">
                 <div class="container">
-                    <h2 class="mt-0 text-center">Songs</h2>
+                    <h2 class="mt-0 text-center h2-color">Songs</h2>
                     <hr style="height: 5px; ">
                     <div class="row g-4 fixWidth">
                         {% for music in singer_musics %}

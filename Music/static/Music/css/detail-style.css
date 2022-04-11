@@ -19,7 +19,9 @@
     height: 60px;
     margin: 0 10px 3px 10px; 
 }
-
+.h2-color{
+    color: yellow !important;
+}
 .item {
     margin: 4px 2px 4px 2px;
     display: flex;

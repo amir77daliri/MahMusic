@@ -98,6 +98,12 @@ class PlayListView(LoginRequiredMixin, ListView):
         return Music.objects.filter(user_playlist=self.request.user).order_by('-playlist__created_at')
 
 
+def search(request):
+    query = request.GET.get('q')
+    results = Music.objects.search(query)
+    return render(request, 'Account/search.html', {'results': results})
+
+
 class Login(auth_views.LoginView):
     form_class = LoginForm
     template_name = 'registration/login.html'
