@@ -45,11 +45,11 @@ class Profile(LoginRequiredMixin, ListView):
         elif query_filter == 'last-week':
             self.active_link = 'last-week'
             last_week = datetime.today() - timedelta(days=7)
-            return Music.objects.annotate(count=Count('hits', filter=Q(musicviewshit__created_at__gt=last_week))).order_by('-count')
+            return Music.objects.annotate(count=Count('hits', filter=Q(musicviewshit__created_at__gt=last_week))).order_by('-count', 'name')
         elif query_filter == 'last-month':
             self.active_link = 'last-month'
             last_month = datetime.today() - timedelta(days=30)
-            return Music.objects.annotate(count=Count('hits', filter=Q(musicviewshit__created_at__gt=last_month))).order_by('-count')
+            return Music.objects.annotate(count=Count('hits', filter=Q(musicviewshit__created_at__gt=last_month))).order_by('-count', 'name')
 
         return Music.objects.all().order_by('-views', 'name')
 
@@ -119,6 +119,7 @@ class Register(CreateView):
     template_name = 'registration/register.html'
 
     def form_valid(self, form):
+        # can use celery here
         user = form.save(commit=False)
         user.is_active = False
         user.save()

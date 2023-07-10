@@ -98,6 +98,7 @@ class ProfileUpdateForm(forms.ModelForm):
             return email
         raise forms.ValidationError("Incorrect Email")
 
+
 class SetNewResetPasswordForm(forms.Form):
     def __init__(self, user, *args, **kwargs):
         self.user = user

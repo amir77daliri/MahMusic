@@ -37,20 +37,11 @@ class MusicDetail(DetailView):
     model = Music
     template_name = 'Music/music-detail.html'
     context_object_name = 'music'
-
-    def get_object(self, **kwargs):
-        global slug
-        global music
-        slug = self.kwargs.get('slug')
-        music = get_object_or_404(Music, slug=slug)
-        ip_address = self.request.user.ip_address
-        if ip_address not in music.hits.all():
-            MusicViewsHit.objects.create(ip_address=ip_address, music=music)
-        return music
+    slug_url_kwarg = 'music_slug'
 
     def get_context_data(self, **kwargs):
-        context = super(MusicDetail, self).get_context_data(**kwargs)
-        context['related_list'] = Music.objects.get_related_songs_with(music)
+        context = super().get_context_data(**kwargs)
+        context['related_list'] = Music.objects.get_related_songs_with(self.object)
         return context
 
 
