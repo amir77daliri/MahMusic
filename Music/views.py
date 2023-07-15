@@ -23,19 +23,19 @@ def home(request):
         'albums': albums,
         'most_rated': most_rated
     }
-    return render(request, '../templates/home-page/home.html', context)
+    return render(request, 'home-page/home.html', context)
 
 
 class MusicList(ListView):
     model = Music
-    template_name = '../templates/Music/music-list.html'
+    template_name = 'Music/music-list.html'
     paginate_by = 24
     context_object_name = 'songs'
 
 
 class MusicDetail(DetailView):
     model = Music
-    template_name = '../templates/Music/music-detail.html'
+    template_name = 'Music/music-detail.html'
     context_object_name = 'music'
     slug_url_kwarg = 'music_slug'
 

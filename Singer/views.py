@@ -6,7 +6,7 @@ from django.views.generic import ListView, DetailView
 
 class SingerList(ListView):
     model = Singer
-    template_name = '../templates/Singer/singer-list.html'
+    template_name = 'Singer/singer-list.html'
     paginate_by = 24
     context_object_name = 'singers'
 
@@ -16,7 +16,7 @@ class SingerList(ListView):
 
 class SingerDetail(DetailView):
     model = Singer
-    template_name = '../templates/Singer/singer-detail.html'
+    template_name = 'Singer/singer-detail.html'
     context_object_name = 'singer'
 
     def get_object(self, **kwargs):
