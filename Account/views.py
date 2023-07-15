@@ -32,7 +32,7 @@ User = get_user_model()
 
 class Profile(LoginRequiredMixin, ListView):
     model = Music
-    template_name = 'Account/profile.html'
+    template_name = '../templates/Account/profile.html'
     paginate_by = 12
 
     def get_queryset(self):
@@ -65,7 +65,7 @@ class Profile(LoginRequiredMixin, ListView):
 class ProfileUpdate(LoginRequiredMixin, UpdateView):
     model = User
     form_class = ProfileUpdateForm
-    template_name = 'Account/profile_update.html'
+    template_name = '../templates/Account/profile_update.html'
     success_url = reverse_lazy('account:profile')
 
     def get_object(self, **kwargs):
@@ -81,7 +81,7 @@ class ProfileUpdate(LoginRequiredMixin, UpdateView):
 
 
 class FavoritMusic(LoginRequiredMixin, ListView):
-    template_name = 'Account/favorite.html'
+    template_name = '../templates/Account/favorite.html'
     paginate_by = 12
     context_object_name = 'favorite_songs'
 
@@ -90,7 +90,7 @@ class FavoritMusic(LoginRequiredMixin, ListView):
 
 
 class PlayListView(LoginRequiredMixin, ListView):
-    template_name = 'Account/playlist.html'
+    template_name = '../templates/Account/playlist.html'
     paginate_by = 12
     context_object_name = 'playlist'
 
@@ -101,7 +101,7 @@ class PlayListView(LoginRequiredMixin, ListView):
 def search(request):
     query = request.GET.get('q')
     results = Music.objects.search(query)
-    return render(request, 'Account/search.html', {'results': results})
+    return render(request, '../templates/Account/search.html', {'results': results})
 
 
 class Login(auth_views.LoginView):

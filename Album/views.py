@@ -7,7 +7,7 @@ from django.views.generic import ListView, DetailView
 
 class AlbumList(ListView):
     model = Album
-    template_name = 'Album/album-list.html'
+    template_name = '../templates/Album/album-list.html'
     paginate_by = 24
     context_object_name = 'albums'
 
@@ -15,9 +15,10 @@ class AlbumList(ListView):
         albums = Album.objects.annotate(count=Count('musics')).order_by('-count')
         return albums
 
+
 class AlbumDetail(DetailView):
     model = Album
-    template_name = 'Album/album-detail.html'
+    template_name = '../templates/Album/album-detail.html'
     context_object_name = 'album'
 
     def get_object(self, **kwargs):
