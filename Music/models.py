@@ -78,15 +78,16 @@ class Music(models.Model):
     thumbnail_tag.short_description = "thumbnail"
 
     def get_views_count(self):
-        return self.views + self.hits.count()
+        return self.views #+ self.hits.count()
 
     def __str__(self):
         return self.name
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
-        time = "{:.2f}".format(MP3(self.music).info.length / 60)
-        self.music_length = time
+        if not self.music_length:
+            time = "{:.2f}".format(MP3(self.music).info.length / 60)
+            self.music_length = time
         super(Music, self).save(*args, **kwargs)
 
 
